@@ -119,7 +119,6 @@ class TSdoc:
         )
 
     # generate a dm, steganographize it and add it to the document at the specified location
-
     def generate_dm_and_add_to_pdf(self):
         # print("generate_dm_and_add_to_pdf")
         steg_id = save_orig_doc_to_db(self.hash, self.bytes)

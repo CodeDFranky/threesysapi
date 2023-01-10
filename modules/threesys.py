@@ -1,16 +1,14 @@
-import fitz
-from pylibdmtx.pylibdmtx import decode as pylibdmtx_decode
-import os
-import psycopg2
-from psycopg2 import Error
-import json
-import treepoem
 import datetime
+import hashlib
 import io
 import math
-import hashlib
+import os
+import fitz
+import psycopg2
+import treepoem
+from psycopg2 import Error
+from pylibdmtx.pylibdmtx import decode as pylibdmtx_decode
 from werkzeug.utils import secure_filename
-
 
 ALLOWED_EXTENSIONS = {"pdf"}
 url = os.getenv("DATABASE_URL")
@@ -42,19 +40,6 @@ def initialize_request(req):
 def allowed_file(filename):
     # print("allowed_file")
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-# # function that ensures that the metadata of the document isn't empty. This must be done
-# # because the API makes use of metadata to check validity
-# def check_document_metadata(document):
-#     print("check_document_metadata")
-#     metadata = document.metadata
-#     author = metadata["author"]
-#     creation_date = metadata["creationDate"]
-#     mod_date = metadata["modDate"]
-#     if not author or not creation_date or not mod_date:
-#         return False
-#     return True
 
 
 # checks if document has enough space for 1 inch defined margins. The limit variable
@@ -340,6 +325,7 @@ def check_if_document_is_modified(document_hash, dm_stegs):
             connection.close()
 
 
+# getting the hash value and bytes of the document
 def get_hash_and_bytes_of_document(document):
     # print("get_hash_of_document")
     document_bytes = document.tobytes(garbage=4, no_new_id=True)
